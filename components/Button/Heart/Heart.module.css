@@ -1,0 +1,25 @@
+.heart {
+	height: 60px;
+	width: 60px;
+	background-image: url('./heart.png');
+	background-position: left;
+	background-repeat: no-repeat;
+	background-size: 2900%;
+}
+
+.liked {
+	background-position: right;
+}
+
+.is_animating {
+	animation: heart-burst 0.8s steps(28) 1;
+}
+
+@keyframes heart-burst {
+	from {
+		background-position: left;
+	}
+	to {
+		background-position: right;
+	}
+}

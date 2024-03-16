@@ -47,7 +47,14 @@ export default function Navbar({ className = '' }) {
 						<i className='ri-menu-line text-2xl'></i>
 					</button>
 					<Link href='/' className='overflow-hidden max-h-[69px] relative'>
-						<Image src='/img/svg/beyond-full.svg' className='logo-mono' alt='logo.png' height={48} />
+						<Image
+							src='/img/svg/beyond-full.svg'
+							className='logo-mono'
+							alt='logo.png'
+							width={150}
+							height={48}
+							priority
+						/>
 					</Link>
 				</div>
 

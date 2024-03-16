@@ -25,7 +25,14 @@ export default function Navbar({ className = '' }) {
 			<nav className='container mx-auto px-4 flex justify-between min-h-16'>
 				<div className='flex items-center'>
 					<Link href='/' className='overflow-hidden max-h-[69px] relative'>
-						<Image src='/img/svg/beyond-full.svg' alt='beyond-full.svg' className='logo-mono' height={48} />
+						<Image
+							src='/img/svg/beyond-full.svg'
+							alt='beyond-full.svg'
+							className='logo-mono'
+							width={150}
+							height={48}
+							priority
+						/>
 					</Link>
 				</div>
 				<div className='inline-flex items-center space-x-3'>
