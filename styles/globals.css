@@ -1,0 +1,178 @@
+@import url('https://fonts.googleapis.com/css2?family=Asap:wght@200;300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merienda:wght@200;300;400;600;700&display=swap');
+/* choisen font : Merienda | Asap | Nunito | Roboto | Oswald | MuseoModerno */
+@import url('https://cdn.jsdelivr.net/npm/remixicon@3.4.0/fonts/remixicon.css');
+/* icon font */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+::-webkit-scrollbar {
+	width: 4px;
+	height: 4px;
+}
+
+::-webkit-scrollbar-track {
+	background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+	background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: #555;
+}
+
+h1 {
+	@apply text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold line-clamp-2;
+}
+h2 {
+	@apply text-2xl sm:text-3xl md:text-4xl font-bold line-clamp-2;
+}
+h3 {
+	@apply text-xl md:text-2xl font-semibold line-clamp-2;
+}
+h4 {
+	@apply text-base md:text-xl font-normal line-clamp-2;
+}
+p {
+	@apply text-base font-normal;
+}
+
+/* For Webkit-based browsers (Chrome, Safari and Opera) */
+.scrollbar-hide::-webkit-scrollbar {
+	display: none;
+}
+
+/* For IE, Edge and Firefox */
+.scrollbar-hide {
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
+}
+
+/* ______ set font ______ */
+html {
+	scroll-behavior: smooth;
+}
+body {
+	font-family: 'Asap', sans-serif;
+}
+[data-theme='dark'] .logo-mono {
+	filter: brightness(0) invert(1);
+}
+.sidebar {
+	/* width: 64px; */
+	transition: width 0.15s ease-in-out;
+}
+.sidebar .sidebar-text {
+	display: none;
+	@apply whitespace-nowrap;
+}
+.sidebar.sidebar-full .sidebar-text {
+	display: block;
+}
+.sidebar.sidebar-full {
+	width: 240px;
+}
+.sidebar-active {
+	@apply bg-base-200;
+	@apply border-r-4;
+	@apply border-primary/50;
+}
+@media only screen and (max-width: 640px) {
+	.sidebar {
+		z-index: 999;
+		position: fixed;
+		opacity: 0;
+		left: -240px;
+		width: 240px;
+	}
+	.sidebar .sidebar-text {
+		display: block;
+	}
+	.sidebar.sidebar-full {
+		opacity: 1;
+		left: 0;
+	}
+}
+.video-grid-limit {
+	@apply grid;
+	@apply gap-4;
+	@apply md:grid-cols-2;
+	@apply xl:grid-cols-3;
+	@apply 2xl:grid-cols-4;
+}
+.video-grid {
+	@apply grid;
+	@apply gap-4;
+	@apply sm:grid-cols-2;
+	@apply md:grid-cols-3;
+	@apply lg:grid-cols-4;
+	@apply 2xl:grid-cols-6;
+}
+.video-grid .video-item,
+.video-grid-limit .video-item {
+	@apply flex-col;
+}
+.video-grid .video-player,
+.video-grid-limit .video-player {
+	@apply w-full;
+}
+.chip {
+	@apply whitespace-nowrap;
+	@apply rounded-full;
+	@apply px-3;
+	@apply py-1;
+	@apply mx-1;
+	@apply bg-neutral;
+	@apply border;
+	/* @apply border-neutral-focus; */
+}
+.chip-active {
+	@apply bg-base-content;
+	@apply text-base-300;
+}
+.pic-circle {
+	@apply aspect-square;
+	@apply rounded-full;
+	@apply hover:scale-110;
+	@apply transform;
+	@apply duration-100;
+}
+
+/* ______ override daisy ______ */
+.input:focus,
+.textarea:focus,
+.select:focus,
+.file-input:focus {
+	@apply outline-1 outline-offset-0;
+}
+.steps:not(.steps-vertical) .step:before {
+	height: 0.1rem;
+}
+.steps-vertical .step:before {
+	width: 0.1rem;
+}
+
+/* ______ custom form ______ */
+.form-input {
+	@apply relative border rounded-md overflow-hidden focus-within:border-blue-500;
+}
+
+.form-input input {
+	@apply block px-4 pt-4 pb-2 w-full text-lg appearance-none focus:outline-none bg-base-100;
+}
+
+.form-input label {
+	@apply absolute -top-1 text-lg p-4 duration-300 origin-0 pointer-events-none;
+}
+
+.form-input input:focus-within ~ label,
+.form-input input:not(:placeholder-shown) ~ label {
+	@apply transform scale-50 -translate-y-1 top-0 z-0 ml-3 px-1 py-0;
+}
+.ProseMirror {
+	@apply h-20 outline-none;
+}

@@ -1,0 +1,44 @@
+# We assume the S3 bucket with stacks and the EC2 keys are manually created.
+
+Description: >-
+  Development stack with VPC, 2 AZs, 2x public subnets for EC2, 2x private subnets for RDB, ALB, security groups allowing public HTTP(S), and SSH.
+
+Parameters:
+  # We pass in values from GitHub Actions to update UserData and force EC2 rolling deploy for new dockers.
+  # Use some default values for manual deploys, these can be overridden on CLI
+  DateTime:
+    Description: ISO8601 datetime of CI/CD run
+    Type: String
+    Default: yyyy-mm-ddThh:mm:ss-0000
+  GitHash:
+    Description: Hash of branch being deployed by CI/CD
+    Type: String
+    Default: nogithash
+
+Resources:
+  Service:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://s3.amazonaws.com/ky-fe-dev-cloudformation-stacks/services.yaml
+      Parameters:
+        S3BucketName: ky-fe-dev
+        Route53HostedZoneId: Z102792124RIAQ3H0ZZYN    # ID of HostedZone containing FQDN
+        Route53HostNameFqdn: dev.koolyard.com  # needs dot suffix in CF record creation
+        DateTime: !Ref DateTime
+        GitHash: !Ref GitHash
+        S3Endpoint: ky-fe-dev.s3-website-us-east-1.amazonaws.com
+        S3HostedZoneId: Z3AQBSTGFYJSTF
+        EnvironmentName: dev
+      Tags:
+        - Key: Name
+          Value: ky-dev
+        - Key: app
+          Value: ky
+        - Key: billcode
+          Value: ky
+        - Key: customer
+          Value: ky
+        - Key: stage
+          Value: dev
+        - Key: techie
+          Value: tuyen
