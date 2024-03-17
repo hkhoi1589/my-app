@@ -21,7 +21,6 @@ const pages = {
 
 export const authOptions = {
 	// Configure one or more authentication providers
-	secret: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
 	session: {
 		strategy: 'jwt', //(1)
 	},
