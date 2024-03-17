@@ -12,7 +12,8 @@ import { toast } from 'react-toastify';
 export default function ListComment({ idPost }) {
 	const [page, setPage] = useState(0);
 	// const [activeSort, setActiveSort] = useState(filterItems[0]);
-	const { dataComments, setDataComments, loadingAdd, errorAdd, setMutate } = useCommentsListStore();
+	const { dataComments, setDataComments, loadingAdd, errorAdd, setMutate } =
+		useCommentsListStore();
 
 	const { comments_post, isLoading, isError, mutate } = postApi.ListCommentPost(
 		idPost,

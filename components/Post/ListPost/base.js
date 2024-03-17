@@ -9,15 +9,15 @@ import { usePostListStore } from '@/store/forum';
 import { filterItemsPost } from '@/utils/constant';
 import postApi from '@/services/postApi.service';
 import channelApi from '@/services/channelApi.service';
-import { redirect } from 'next/navigation';
+import { redirect, useSearchParams } from 'next/navigation';
 
-function ListPost({ isChannel = false, channel_id = '', customText = '' }) {
-	// let channel_id = '';
-	// const searchParams = useSearchParams();
+function ListPost({ isChannel = false, customText = '' }) {
+	let channel_id = '';
+	const searchParams = useSearchParams();
 
-	// if (isChannel) {
-	// 	channel_id = searchParams.get('channel_id');
-	// }
+	if (isChannel) {
+		channel_id = searchParams.get('channel_id');
+	}
 
 	const [page, setPage] = useState(0);
 	const [activeSort, setActiveSort] = useState(filterItemsPost[0]);

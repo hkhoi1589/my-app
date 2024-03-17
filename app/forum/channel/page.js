@@ -8,11 +8,11 @@ import dynamic from 'next/dynamic';
 const NewPost = dynamic(() => import('@/components/Post/NewPost/base'));
 const ListMember = dynamic(() => import('@/components/Channel/ListMember/base'), { ssr: false });
 
-export function generateMetadata({ params, searchParams }, parent) {
-	return {
-		title: searchParams.channel_name,
-	};
-}
+// export function generateMetadata({ params, searchParams }, parent) {
+// 	return {
+// 		title: searchParams.channel_name,
+// 	};
+// }
 
 export default function Page() {
 	return (

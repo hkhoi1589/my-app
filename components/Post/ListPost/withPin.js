@@ -9,15 +9,15 @@ import { filterItems, filterItemsPost, maxPinPostsPerPage } from '@/utils/consta
 import { usePostListStore } from '@/store/forum';
 import postApi from '@/services/postApi.service';
 import channelApi from '@/services/channelApi.service';
-import { redirect } from 'next/navigation';
+import { redirect, useSearchParams } from 'next/navigation';
 
-function ListPost({ isChannel = false, channel_id = '' }) {
-	// let channel_id = '';
-	// const searchParams = useSearchParams();
+function ListPost({ isChannel = false }) {
+	let channel_id = '';
+	const searchParams = useSearchParams();
 
-	// if (isChannel) {
-	// 	channel_id = searchParams.get('channel_id');
-	// }
+	if (isChannel) {
+		channel_id = searchParams.get('channel_id');
+	}
 
 	const [page, setPage] = useState(0);
 	const [activeSort, setActiveSort] = useState(filterItems[0]);

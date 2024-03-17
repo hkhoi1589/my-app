@@ -2,16 +2,16 @@
 
 import { useAppStore } from '@/store/forum';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import dynamic from 'next/dynamic';
 
 const ListChannel = dynamic(() => import('@/components/Channel/ListChannel/sidebar'));
 
-export default function Sidebar({ channel_id, className = '' }) {
+export default function Sidebar({ className = '' }) {
 	const { more, sidebar, toggleSidebar, setMore } = useAppStore();
 	const pathname = usePathname();
-	// const searchParams = useSearchParams();
-	// const channel_id = searchParams.get('channel_id');
+	const searchParams = useSearchParams();
+	const channel_id = searchParams.get('channel_id');
 
 	const listSidebar = [
 		{

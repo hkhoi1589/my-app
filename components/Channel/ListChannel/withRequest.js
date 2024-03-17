@@ -2,15 +2,15 @@
 import { useUserStore } from '@/store/forum';
 import { useEffect } from 'react';
 import channelApi from '@/services/channelApi.service';
-// import { useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import RequestItem from './item';
 
-export default function ChannelList({ channel_id, owner, className = '' }) {
+export default function ChannelList({ className = '' }) {
 	const { profile, channelRequests, setChannelRequests } = useUserStore();
 
-	// const searchParams = useSearchParams();
-	// const channel_id = searchParams.get('channel_id');
-	// const owner = searchParams.get('owner');
+	const searchParams = useSearchParams();
+	const channel_id = searchParams.get('channel_id');
+	const owner = searchParams.get('owner');
 
 	const { requests, isLoading, isError, mutate } = channelApi.ListRequestJoinChannel(channel_id);
 

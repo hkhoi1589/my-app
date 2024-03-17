@@ -22,7 +22,9 @@ export default function ChannelList({ className = '', loader = false, limit = 10
 				data.map((page, i) => (
 					<ul key={i} className={`divide-y-2 divide-neutral ${className}`}>
 						{page.data &&
-							page.data.map((item, idx) => <ChannelItem {...item} key={idx} fill={fill} />)}
+							page.data.map((item, idx) => (
+								<ChannelItem {...item} key={idx} fill={fill} />
+							))}
 					</ul>
 				))}
 
@@ -30,7 +32,9 @@ export default function ChannelList({ className = '', loader = false, limit = 10
 				!hitEnd &&
 				limit < data.length && (
 					<div className='text-center my-4'>
-						<button className='btn btn-sm btn-outline' onClick={() => setSize(size + 1)}>
+						<button
+							className='btn btn-sm btn-outline'
+							onClick={() => setSize(size + 1)}>
 							Load more
 						</button>
 					</div>

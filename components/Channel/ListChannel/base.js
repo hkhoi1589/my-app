@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import Pagination from '@/components/Post/Pagination/base';
+import Pagination from '@/components/Post//Pagination/base';
 import ListChannelLoading from './loading';
 import channelApi from '@/services/channelApi.service';
 import Filter from '@/components/Filter/base';

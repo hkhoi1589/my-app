@@ -2,7 +2,7 @@
 'use client';
 
 import Progress from '@/components/progress';
-// import Loading from '@/app/forum/you/your-posts/loading';
+import Loading from '@/app/forum/you/your-posts/loading';
 import PostItem from './item';
 import { useRequest } from '@/utils/request';
 import useIsInViewport from '@/utils/useIsInViewport';
@@ -50,7 +50,7 @@ export default function PostList({
 					</ul>
 				))}
 
-			{/* {isLoading && <Loading className='mx-auto my-4' />} */}
+			{isLoading && <Loading className='mx-auto my-4' />}
 
 			<div className='text-center my-4' ref={btnLoad}>
 				{!isLoading && !hitEnd && <Progress className='mx-auto my-4' />}

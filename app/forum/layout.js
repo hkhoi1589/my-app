@@ -27,3 +27,5 @@ export default async function ForumLayout({ children }) {
 		return '/auth';
 	}
 }
+
+export const dynamic = 'force-static';
