@@ -1,0 +1,163 @@
+#  Template React Deploy
+
+#  This template allows you to deploy your React app to an AWS S3 bucket and invalidate the old AWS Cloudfront distribution.
+#  The workflow allows running tests, code linting and security scans on feature branches (as well as master).
+#  The react app will be validated, deployed to S3 and trigger an AWS Cloudfront distribution invalidation to refresh the CDN caches after the code is merged to master.
+
+# Prerequisites: $AWS_ACCESS_KEY_ID, $AWS_SECRET_ACCESS_KEY setup in the Deployment variables.
+# For advanced cases, please, follow examples from the pipe's:
+# README https://bitbucket.org/atlassian/aws-s3-deploy/src/master/README.md
+# README https://bitbucket.org/atlassian/aws-cloudfront-invalidate/src/master/README.md
+
+image: node:20.11.1
+
+# Workflow Configuration
+definitions:
+  caches:
+    nextcache: .next/cache
+  steps:
+    - step: &Security-scan
+        name: Security Scan
+        script:
+          # Run a security scan for sensitive data.
+          # See more security tools at https://bitbucket.org/product/features/pipelines/integrations?&category=security
+          - pipe: atlassian/git-secrets-scan:0.5.1
+    - step: &Upload-Cf-Stack
+          name: Upload CloudFormation Stack
+          oidc: true
+          image: amazon/aws-cli
+          script:
+            - echo "Deploying BRANCH=$BITBUCKET_BRANCH"
+            - >
+              case $BITBUCKET_BRANCH in
+                master)
+                  env="prod"
+                  ;;
+                release/*)
+                  env="qa"
+                  ;;
+                develop)
+                  env="dev"
+                  ;;
+                *)
+                echo "Skipping tag/push/deploy due to lack of AWS environment for '$BITBUCKET_BRANCH'"
+                exit 0
+              esac
+            - export AWS_ROLE_ARN=$AWS_OIDC_ROLE_ARN
+            - export AWS_REGION=$AWS_DEFAULT_REGION
+            - export AWS_WEB_IDENTITY_TOKEN_FILE=$(pwd)/web-identity-token
+            - echo $BITBUCKET_STEP_OIDC_TOKEN > $(pwd)/web-identity-token
+            - aws s3 cp aws s3://ky-fe-${env}-cloudformation-stacks/ --recursive --exclude "*" --include "*.yaml" --include "*.yaml"
+
+pipelines:
+  branches:
+    release/**:
+      - parallel:
+        - step: *Security-scan
+        - step: *Upload-Cf-Stack
+      - step:
+          name: Build Static
+          deployment: QA
+          caches:
+            - node
+          script:
+            - yarn
+            # CI=true in default variables for Bitbucket Pipelines https://support.atlassian.com/bitbucket-cloud/docs/variables-in-pipelines/
+            - yarn build
+          artifacts:
+            - dist/**
+      - step:
+          name: Deploy CloudFormation Stack to Dev Environment
+          oidc: true
+          script:
+            - export DateTime=`date --iso-8601=seconds`
+            - export GitHash=$BITBUCKET_COMMIT
+            - echo "DateTime=${DateTime} GitHash=$BITBUCKET_COMMIT"
+            # Deploy your configuration as code using AWS CloudFormation.
+            # See more details https://bitbucket.org/atlassian/aws-cloudformation-deploy
+            - pipe: atlassian/aws-cloudformation-deploy:0.18.0
+              variables:
+                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
+                AWS_OIDC_ROLE_ARN: $AWS_OIDC_ROLE_ARN
+                STACK_NAME: 'ky-fe-qa'
+                TEMPLATE: 'https://s3.amazonaws.com/ky-fe-qa-cloudformation-stacks/qa.yaml'
+                CAPABILITIES: [ 'CAPABILITY_IAM' ]
+                WAIT: 'true'
+                STACK_PARAMETERS: >
+                  [{
+                    "ParameterKey": "DateTime",
+                    "ParameterValue": "${DateTime}"
+                  },
+                  {
+                    "ParameterKey": "GitHash",
+                    "ParameterValue": "${GitHash}"
+                  }]
+      - step:
+          name: Push Static to Dev Environment
+          oidc: true
+          clone:
+            enabled: false
+          script:
+            # sync your files to S3
+            - pipe: atlassian/aws-s3-deploy:1.1.0
+              variables:
+                AWS_OIDC_ROLE_ARN: $AWS_OIDC_ROLE_ARN
+                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
+                #S3_BUCKET name must be matching with name in cloudformation stack
+                S3_BUCKET: 'ky-fe-qa'
+                LOCAL_PATH: 'dist'
+    develop:
+      - parallel:
+        - step: *Security-scan
+        - step: *Upload-Cf-Stack
+      - step:
+          name: Build Static
+          deployment: Development
+          caches:
+            - node
+          script:
+            - yarn
+            # CI=true in default variables for Bitbucket Pipelines https://support.atlassian.com/bitbucket-cloud/docs/variables-in-pipelines/
+            - yarn build
+          artifacts:
+            - dist/**
+      - step:
+          name: Deploy CloudFormation Stack to Dev Environment
+          oidc: true
+          script:
+            - export DateTime=`date --iso-8601=seconds`
+            - export GitHash=$BITBUCKET_COMMIT
+            - echo "DateTime=${DateTime} GitHash=$BITBUCKET_COMMIT"
+            # Deploy your configuration as code using AWS CloudFormation.
+            # See more details https://bitbucket.org/atlassian/aws-cloudformation-deploy
+            - pipe: atlassian/aws-cloudformation-deploy:0.18.0
+              variables:
+                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
+                AWS_OIDC_ROLE_ARN: $AWS_OIDC_ROLE_ARN
+                STACK_NAME: 'ky-fe-dev'
+                TEMPLATE: 'https://s3.amazonaws.com/ky-fe-dev-cloudformation-stacks/dev.yaml'
+                CAPABILITIES: [ 'CAPABILITY_IAM' ]
+                WAIT: 'true'
+                STACK_PARAMETERS: >
+                  [{
+                    "ParameterKey": "DateTime",
+                    "ParameterValue": "${DateTime}"
+                  },
+                  {
+                    "ParameterKey": "GitHash",
+                    "ParameterValue": "${GitHash}"
+                  }]
+      - step:
+          name: Push Static to Dev Environment
+          oidc: true
+          clone:
+            enabled: false
+          script:
+            # sync your files to S3
+            - pipe: atlassian/aws-s3-deploy:1.1.0
+              variables:
+                AWS_OIDC_ROLE_ARN: $AWS_OIDC_ROLE_ARN
+                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
+                #S3_BUCKET name must be matching with name in cloudformation stack
+                S3_BUCKET: 'ky-fe-dev'
+                LOCAL_PATH: 'dist'
