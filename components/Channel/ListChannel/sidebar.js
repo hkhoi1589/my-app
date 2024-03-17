@@ -5,12 +5,12 @@ import { useAppStore, useUserStore } from '@/store/forum';
 import Link from 'next/link';
 import { useEffect } from 'react';
 import ListChannelLoading from './loadingSideBar';
-import { useSearchParams } from 'next/navigation';
+// import { useSearchParams } from 'next/navigation';
 
-function ListChannel() {
+function ListChannel({ channel_id }) {
 	const { more } = useAppStore();
-	const searchParams = useSearchParams();
-	const channel_id = searchParams.get('channel_id');
+	// const searchParams = useSearchParams();
+	// const channel_id = searchParams.get('channel_id');
 
 	const { yourChannels, setYourChannels, setMutateYourChannels } = useUserStore();
 

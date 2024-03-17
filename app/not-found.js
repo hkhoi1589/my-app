@@ -13,9 +13,9 @@ export default function NotFound({ className = '' }) {
 					Sorry, the page you are looking for could not be found or has been removed.
 				</p>
 				<Link
-					href='/'
+					href='/forum'
 					className='text-primary duration-150 hover:text-indigo-400 font-medium inline-flex items-center gap-x-1'>
-					Return Home
+					Return Forum
 					<svg
 						xmlns='http://www.w3.org/2000/svg'
 						viewBox='0 0 20 20'

@@ -11,22 +11,27 @@ import postApi from '@/services/postApi.service';
 import { toast } from 'react-toastify';
 import { usePostListStore } from '@/store/forum';
 import Progress from '@/components/progress';
-import { useSearchParams } from 'next/navigation';
+// import { useSearchParams } from 'next/navigation';
 import schoolApi from '@/services/schoolApi.service';
 import { optionsImg } from '@/utils/constant';
 import PreviewUpload from '@/components/PreviewUpload/previewImage';
 import userApi from '@/services/userApi.service';
 
 // tach create post in channel vs create post school
-function NewPost({ className = '', isChannel = false }) {
-	let channel_id = '',
-		channel_name = 'Select a channel';
-	const searchParams = useSearchParams();
+function NewPost({
+	className = '',
+	channel_id = '',
+	channel_name = 'Select a channel',
+	isChannel = false,
+}) {
+	// let channel_id = '',
+	// 	channel_name = 'Select a channel';
+	// const searchParams = useSearchParams();
 
-	if (isChannel) {
-		channel_id = searchParams.get('channel_id');
-		channel_name = searchParams.get('channel_name');
-	}
+	// if (isChannel) {
+	// 	channel_id = searchParams.get('channel_id');
+	// 	channel_name = searchParams.get('channel_name');
+	// }
 
 	const [showEmojis, setShowEmojis] = useState(false);
 	const [isOpen, setIsOpen] = useState(false);

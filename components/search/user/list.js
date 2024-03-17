@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 'use client';
 import Progress from '@/components/progress';
-import Loading from '@/app/forum/you/friends-list/loading';
+// import Loading from '@/app/forum/you/friends-list/loading';
 import UserItem from './item';
 import { useRequest } from '@/utils/request';
 import useIsInViewport from '@/utils/useIsInViewport';
@@ -49,7 +49,7 @@ export default function UserList({
 					</ul>
 				))}
 
-			{isLoading && <Loading className='mx-auto my-4' />}
+			{/* {isLoading && <Loading className='mx-auto my-4' />} */}
 
 			<div className='text-center my-4' ref={btnLoad}>
 				{!isLoading && !hitEnd && <Progress className='mx-auto my-4' />}

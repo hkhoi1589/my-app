@@ -5,15 +5,15 @@ import channelApi from '@/services/channelApi.service';
 import userApi from '@/services/userApi.service';
 import { useUserStore } from '@/store/forum';
 import useDebounce from '@/utils/useDebounce';
-import { useSearchParams } from 'next/navigation';
+// import { useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 
-function InviteChannel({ isOpen, setIsOpen, oldMembers, className = '' }) {
+function InviteChannel({ channel_id, isOpen, setIsOpen, oldMembers, className = '' }) {
 	const modal = useRef(null);
 
-	const searchParams = useSearchParams();
-	const channel_id = searchParams.get('channel_id');
+	// const searchParams = useSearchParams();
+	// const channel_id = searchParams.get('channel_id');
 	//const owner = searchParams.get('owner');
 	const { profile } = useUserStore();
 
