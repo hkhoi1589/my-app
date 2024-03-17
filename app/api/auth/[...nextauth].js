@@ -26,6 +26,7 @@ export const authOptions = {
 	},
 	providers,
 	pages,
+	secret: 'koolyard',
 	callbacks: {},
 };
 
