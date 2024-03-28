@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-const config = {
+module.exports = {
 	content: [
 		'./pages/**/*.{js,ts,jsx,tsx,mdx}',
 		'./components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -42,7 +42,7 @@ const config = {
 	daisyui: {
 		logs: true,
 		styled: true,
-		// themes: true,
+		themes: true,
 		base: true,
 		utils: true,
 		rtl: false,
@@ -106,4 +106,3 @@ const config = {
 		],
 	},
 };
-export default config;

@@ -1,4 +1,5 @@
 import '@/styles/globals.css';
+import { SessionProvider } from 'next-auth/react';
 import { Inter } from 'next/font/google';
 import { ToastContainer } from 'react-toastify';
 // import Client from './client'; // all plugins run only client
@@ -17,7 +18,7 @@ export default function RootLayout({ children }) {
 		<html lang='en' className={`${inter.className} scroll-smooth`}>
 			<body>
 				<ToastContainer draggable={false} />
-				{children}
+				<SessionProvider>{children}</SessionProvider>
 			</body>
 			{/* <Client /> */}
 		</html>

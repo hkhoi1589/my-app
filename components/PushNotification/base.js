@@ -57,7 +57,7 @@ export default function PushNotification() {
 					//If notification is allowed
 					// create token
 					await createToken(setFCMToken);
-	
+
 					// foreground notification
 					receiveMessage(addNoti);
 				} else {

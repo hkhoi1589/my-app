@@ -2,14 +2,12 @@
 	"name": "beyondmountain",
 	"version": "0.1.0",
 	"private": true,
-	"type": "module",
 	"scripts": {
-		"dev": "node ./public/swEnvBuild.js && next dev",
-		"build": "cross-env BUILD_MODE=export BUILD_APP=1 next build && node ./public/swEnvBuild.js",
+		"dev": "cra-append-sw --mode dev --env ./.env ./public/firebase-messaging-sw.js && next dev",
+		"build": "cra-append-sw --mode dev --env ./.env ./public/firebase-messaging-sw.js && next build",
+		"dist": "next build -o dist",
 		"start": "next start",
-		"lint": "next lint",
-		"export": "cross-env BUILD_MODE=export BUILD_APP=1 next build && node ./public/swEnvBuild.js",
-		"export:dev": "cross-env BUILD_MODE=export BUILD_APP=1 next dev"
+		"lint": "next lint"
 	},
 	"dependencies": {
 		"@tiptap/core": "^2.2.4",
@@ -19,7 +17,6 @@
 		"browser-image-compression": "^2.0.2",
 		"daisyui": "^4.7.3",
 		"dayjs": "^1.11.10",
-		"dotenv": "^16.4.5",
 		"firebase": "^10.9.0",
 		"framer-motion": "^11.0.13",
 		"idb-keyval": "^6.2.1",
